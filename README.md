@@ -5,18 +5,15 @@ description: "An open-source anime/manga Discord bot for searching anime, manga 
 
 <span class="px-3 py-1 text-xs text-white bg-green-600 rounded-full select-none">#️⃣ Supports Slash Commands</span>
 
-# coffeeani
+# 🗻 coffeeani
 
-<component-coghero cog="coffeeani" desc="Search anime, manga (manhwa/manhua/light novels), and characters. See series info, status, episodes/chapters, and tags." use_desc_only="true"></component-coghero>
+### An open-source anime/manga Discord bot for searching anime, manga, light novels, and anime characters.
 
-<p class="text-lg font-bold">An open-source anime/manga Discord bot for searching anime, manga (manhwa/manhua), light novels, and anime characters.</p>
+The comprehensive Discord bot for searching 漫画 (manga/manhwa/manhua) from Anilist, MangaDex, and Batoto.
 
-The comprehensive Discord bot for searching manga/manhwa/manhua from Anilist, MangaDex, and Batoto.
-
-<div className="grid grid-cols-2 gap-2 aspect-[1216/648]">
-<p className="aspect-[608/648]"><img src="./coffeeani-example-anilist.jpg" alt="Coffeeani example Anilist" /></p>
-<p className="aspect-[608/648]"><img src="./coffeeani-example-mangadex.jpg" alt="Coffeeani example MangaDex" /></p>
-</div>
+| 🔵 | 🟠 |
+| --- | --- |
+| ![](./coffeeani-example-anilist.jpg) | ![](./coffeeani-example-mangadex.jpg) |
 
 
 ## Features
@@ -65,7 +62,7 @@ Clone or download this project.
 
 ### Step 2: Add your Discord Bot info
 
-Make an `.env` file, and:
+Copy `.env.example` to `.env`, then:
 - Add your bot's token to `dpy_token`
 - Add your bot's User ID to `dpy_user_id`
 
