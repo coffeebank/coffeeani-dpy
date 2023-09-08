@@ -28,7 +28,7 @@ Make an `.env` file, and:
 
 The bot prefix is @ping or Slash command.
 
-### Step 3: Run your Bot
+### Step 3: Run the Bot
 
 Setup a [venv](https://docs.python.org/3/library/venv.html) using Python >=3.9 and install requirements
 

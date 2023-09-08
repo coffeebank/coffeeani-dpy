@@ -3,8 +3,6 @@
 
 # Discord.py
 **/__pycache__
-cogs
-cogs/
 
 # Logs
 logs
