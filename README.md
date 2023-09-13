@@ -1,10 +1,3 @@
----
-title: "coffeeani"
-description: "An open-source anime/manga Discord bot for searching anime, manga (manhwa/manhua), light novels, and anime characters. Search Anilist, MangaDex, and Batoto."
----
-
-<span class="px-3 py-1 text-xs text-white bg-green-600 rounded-full select-none">#️⃣ Supports Slash Commands</span>
-
 # 🗻 coffeeani
 
 ### An open-source anime/manga Discord bot for searching anime, manga, light novels, and anime characters.
@@ -52,7 +45,23 @@ This cog is a customized fork of **anisearch** by [Jintaku-Cogs-V3 (AGPL-3.0)](h
 This bot is also available on **Matrix** ([Element](https://element.io/personal)) with Maubot at [https://plugins.maubot.xyz](https://plugins.maubot.xyz) as **animemanga** by [coffee-maubot (AGPL-3.0)](https://github.com/coffeebank/coffee-maubot/tree/master/animemanga).
 
 [Coffeeani is open-source (AGPL-3.0).](https://github.com/coffeebank/coffee-cogs/tree/master/coffeeani)
-<br /><br />
+
+<br />
+
+## Commands
+
+- `/anime`
+- `/animecharacter`
+- `/manga`, aliases=`["manhwa", "만화", "manhua", "漫画", "lightnovel"]`
+
+### Services
+
+- `/anilist`
+  - `user`, `manga`
+- `/mangadex`
+- `/batoto`
+
+<br />
 
 ## Install
 
