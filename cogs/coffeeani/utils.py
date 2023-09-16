@@ -27,6 +27,31 @@ LANGUAGE_FLAGS_MAP = {
   "zh-tw": "tw",
 }
 
+class SearchResult:
+    def __init__(self):
+        self.series_id = None
+        self.link = None
+        self.title = None
+        self.description = None
+        self.time_left = None
+        self.image = None
+        self.image_thumbnail = None
+        self.embed_description = None
+        self.studios = None
+        self.external_links = None
+        self.info_format = None
+        self.info_status = None
+        self.info_epschaps = None
+        self.info_start_end = None
+        self.info_start_year = None
+        self.info_links = None
+        self.info = None
+        self.country_of_origin = None
+        self.country_of_origin_flag_str = None
+        self.relations = None
+        self.names = None
+        self.tags = None
+
 def format_manga_type(series_format, country_of_origin: str=""):
     if series_format in [None, True, False, []]:
         return series_format
@@ -34,7 +59,9 @@ def format_manga_type(series_format, country_of_origin: str=""):
     if country_of_origin:
         if country_of_origin.lower() in ["kr", "ko"] and series_format.lower() == "manga":
             return "MANHWA"
-        if country_of_origin.lower().split("-")[0] in ["cn", "zh"] and series_format.lower() == "manga":
+        if country_of_origin.lower().split("-")[0] in ["zh", "cn"] and series_format.lower() in ["anime", "ona"]:
+            return "DONGHUA"
+        if country_of_origin.lower().split("-")[0] in ["zh", "cn"] and series_format.lower() == "manga":
             return "MANHUA"
     return series_format
 
