@@ -23,19 +23,19 @@ The comprehensive Discord bot for searching 漫画 (manga/manhwa/manhua) from An
 
 ### Anilist
 
-- Search anime
-- Search manga (manhwa/manhua and webtoons)
+- Search anime (+ donghua)
+- Search manga (+ manhwa/manhua and webtoons)
 - Search light novels
 - Search anime/manga characters
 - Search Anilist users
 
 ### MangaDex
 
-- Search manga (manhwa/manhua and webtoons)
+- Search manga (+ manhwa/manhua and webtoons)
 
 ### Batoto
 
-- Search manga (manhwa/manhua and webtoons)
+- Search manga (+ manhwa/manhua and webtoons)
 
 
 ## About
