@@ -2,14 +2,21 @@
 # Jintaku, Wyn: AGPL-3.0 License
 
 import asyncio
-import aiohttp
 import datetime
 import json
 import re
 
-from .utils import *
+import aiohttp
+
+from ..models import *
+from ..utils import *
+
+import logging
+logger = logging.getLogger(__name__)
 
 URL_ANILIST = "https://graphql.anilist.co"
+
+COLOR_ANILIST = "#3498DB"
 
 SEARCH_ANILIST_ANIME_MANGA_QUERY = """
 query ($id: Int, $page: Int, $search: String, $type: MediaType) {
@@ -164,10 +171,19 @@ async def anilist_request(query, variables=None):
 
 async def anilist_search_anime_manga(cmd, entered_title, isDiscord=False):
     variables = {"search": entered_title, "page": 1, "type": cmd}
-    raw_data = await anilist_request(SEARCH_ANILIST_ANIME_MANGA_QUERY, variables)
-    data = raw_data["data"]["Page"]["media"]
+    
+    try:
+        raw_data = await anilist_request(SEARCH_ANILIST_ANIME_MANGA_QUERY, variables)
+        data = raw_data["data"]["Page"]["media"]
+    except Exception as err:
+        logger.error(err, exc_info=True)
+        return None
 
-    if data is None and len(data) <= 0:
+    if not data:
+        logger.debug("No results")
+        return None
+    if len(data) <= 0:
+        logger.debug("No results")
         return None
 
     embeds = []
@@ -202,7 +218,7 @@ async def anilist_search_anime_manga(cmd, entered_title, isDiscord=False):
             embeds_adult.append(payload.__dict__)
         else:
             embeds.append(payload.__dict__)
-    return embeds+embeds_adult, data
+    return (embeds+embeds_adult, data)
 
 def anilist_get_link(id, media_type):
     id = str(id)

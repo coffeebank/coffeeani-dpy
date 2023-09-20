@@ -3,9 +3,15 @@ import aiohttp
 import json
 import urllib.parse
 
-from .utils import *
+from ..models import *
+from ..utils import *
+
+import logging
+logger = logging.getLogger(__name__)
 
 URL_BATOTO = "https://bato.to/apo/"
+
+COLOR_BATOTO = "#13667A"
 
 SEARCH_BATOTO_QUERY = """
 query get_content_searchComic($select: SearchComic_Select) {
@@ -62,7 +68,8 @@ async def batoto_search_manga(query: str):
         raw_data = await batoto_request(SEARCH_BATOTO_QUERY, variables)
         data = raw_data["data"]["get_content_searchComic"]["items"]
     except Exception as err:
-        print("[coffeeani]", "[utils_batoto]", err)
+        logger.error(err, exc_info=True)
+        return None
 
     embeds = []
     embeds_non_en = []
@@ -102,7 +109,7 @@ async def batoto_search_manga(query: str):
             embeds_non_en.append(payload.__dict__)
         else:
             embeds.append(payload.__dict__)
-    return embeds+embeds_non_en+embeds_adult, data
+    return (embeds+embeds_non_en+embeds_adult, data)
 
 def batoto_get_description(anime_manga):
     emotions_map = {

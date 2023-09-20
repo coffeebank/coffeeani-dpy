@@ -4,53 +4,7 @@
 import re
 import urllib.parse
 
-LANGUAGE_FLAGS_MAP = {
-  "en": "gb",
-  "id": "id",
-  "ja": "jp",
-  "ko": "kr",
-  "pt-br": "br",
-  "th": "th",
-  "tr": "tr",
-  "vi": "vn",
-  "zh": "cn",
-  "zh-cn": "cn",
-  "zh-hans": "cn",
-  "zh-hans-hk": "hk",
-  "zh-hans-tw": "tw",
-  "zh-hant": "tw",
-  "zh-hant-hk": "hk",
-  "zh-hant-tw": "tw",
-  "zh-hk": "hk",
-  "zh-mo": "mo",
-  "zh-sg": "sg",
-  "zh-tw": "tw",
-}
-
-class SearchResult:
-    def __init__(self):
-        self.series_id = None
-        self.link = None
-        self.title = None
-        self.description = None
-        self.time_left = None
-        self.image = None
-        self.image_thumbnail = None
-        self.embed_description = None
-        self.studios = None
-        self.external_links = None
-        self.info_format = None
-        self.info_status = None
-        self.info_epschaps = None
-        self.info_start_end = None
-        self.info_start_year = None
-        self.info_links = None
-        self.info = None
-        self.country_of_origin = None
-        self.country_of_origin_flag_str = None
-        self.relations = None
-        self.names = None
-        self.tags = None
+from .constants import LANGUAGE_FLAGS_MAP
 
 def format_manga_type(series_format, country_of_origin: str=""):
     if series_format in [None, True, False, []]:
@@ -80,10 +34,27 @@ def format_string(string):
         return str(string)
     return None
 
-def format_translate(text: str):
-    encoded_text = urllib.parse.quote(text, safe="")
-    translate = f"https://www.deepl.com/translator#a/en/{encoded_text}"
+def format_translate(text: str, source_lang: str="a", target_lang: str="en"):
+    encoded_text = format_url_encode(text)
+    translate = f"https://www.deepl.com/translator#{source_lang}/{target_lang}/{encoded_text}"
     return translate
+
+def format_url_encode(text):
+    east_asian_chars = (
+        '\u4E00-\u9FFF'  # Common Hanzi/Kanji characters
+        '|\u3400-\u4DBF'  # Extension A for rare Hanzi/Kanji characters
+        '|\uF900-\uFAFF'  # Compatibility Ideographs
+        '|\u3040-\u309F'  # Hiragana
+        '|\u30A0-\u30FF'  # Katakana
+        '|\uFF65-\uFF9F'  # Half-width Katakana
+        '|\u1100-\u11FF'  # Hangul Jamo
+        '|\u3130-\u318F'  # Hangul Compatibility Jamo
+        '|\uA960-\uA97F'  # Hangul Jamo Extended-A
+        '|\uAC00-\uD7AF'  # Hangul Syllables
+        '|\uD7B0-\uD7FF'  # Hangul Jamo Extended-B
+    )
+    # Use regex sub to replace all non-East Asian characters with their quoted versions
+    return re.sub(f'[^{east_asian_chars}]', lambda m: urllib.parse.quote(m.group(0)), text)
 
 def get_array_first_key(arr):
     if arr:
@@ -116,14 +87,17 @@ def clean_spoilers(description):  # Removes spoilers using the html tag given by
     cleantext = re.sub(cleanr, "", description)
     return cleantext
 
-def description_parser(description):  # Limits text to characters and 5 lines and adds "..." at the end
+def description_parser(description, limit_lines: int=5, limit_char: int=550, flatten_lines: bool=False):
     if description is None:
         return None
     description = clean_spoilers(description)
     description = clean_html(description)
-    description = "\n".join(description.split("\n")[:5])
-    if len(description) > 550:
-        return description[:550] + "..."
+    if limit_lines:
+        description = "\n".join(description.split("\n")[:limit_lines])
+    if flatten_lines:
+        description = description.replace("\n", " ").replace("\r", " ")
+    if limit_char and len(description) > limit_char:
+        return description[:limit_char] + "..."
     else:
         return description
 

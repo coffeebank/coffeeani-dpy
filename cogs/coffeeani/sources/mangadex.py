@@ -2,9 +2,15 @@ import asyncio
 import aiohttp
 import json
 
-from .utils import *
+from ..models import *
+from ..utils import *
+
+import logging
+logger = logging.getLogger(__name__)
 
 URL_MANGADEX = "https://api.mangadex.org"
+
+COLOR_MANGADEX = "#FF6740"
 
 EXTERNAL_LINKS_MAP = {
   "al": "Anilist",
@@ -43,7 +49,7 @@ async def mangadex_search_manga(query):
         if raw_data.get("total", 0) <= 0:
             return None
     except Exception as err:
-        print("[coffeeani]", "[utils_mangadex]", err)
+        logger.error(err, exc_info=True)
         return None
 
     embeds = []
@@ -75,7 +81,7 @@ async def mangadex_search_manga(query):
             embeds_adult.append(payload.__dict__)
         else:
             embeds.append(payload.__dict__)
-    return embeds+embeds_adult, raw_data
+    return (embeds+embeds_adult, raw_data)
 
 def mangadex_get_link(id: str):
     return "https://mangadex.org/title/"+id
