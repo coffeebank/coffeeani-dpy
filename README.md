@@ -2,7 +2,7 @@
 
 ### An open-source anime/manga Discord bot for searching anime, manga, light novels, and anime characters.
 
-The comprehensive Discord bot for searching 漫画 (manga/manhwa/manhua) from Anilist, MangaDex, and Batoto.
+The comprehensive Discord bot for searching 漫画 (manga/manhwa/manhua) from Anilist, MangaDex, Batoto, and Kakao Webtoon.
 
 | 🔵 | 🟠 |
 | --- | --- |
@@ -37,6 +37,12 @@ The comprehensive Discord bot for searching 漫画 (manga/manhwa/manhua) from An
 
 - Search manga (+ manhwa/manhua and webtoons)
 
+### Kakao Webtoon
+
+- Search manhwa/webtoons
+- Korean romanizations
+- Korean translations (DeepL integration)
+
 
 ## About
 
@@ -60,6 +66,7 @@ This bot is also available on **Matrix** ([Element](https://element.io/personal)
   - `user`, `manga`
 - `/mangadex`
 - `/batoto`
+- `/kakao`
 
 <br />
 
