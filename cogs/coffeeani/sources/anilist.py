@@ -48,7 +48,7 @@ query ($id: Int, $page: Int, $search: String, $type: MediaType) {
         url site
       }
       nextAiringEpisode {
-        timeUntilAiring
+        airingAt timeUntilAiring episode
       }
       countryOfOrigin
       genres
@@ -196,7 +196,8 @@ async def anilist_search_anime_manga(cmd, entered_title, isDiscord=False):
         payload.link = f"https://anilist.co/{cmd.lower()}/{payload.series_id}"
         payload.title = anime_manga["title"]["english"] or anime_manga["title"]["romaji"] or "No Title"
         payload.description = anime_manga.get("description", None)
-        payload.time_left = anilist_get_next_airing_episode(anime_manga)
+        payload.next_episode_time = anilist_get_next_episode_time(anime_manga)
+        payload.next_episode_int = anilist_get_next_episode_int(anime_manga)
         payload.image = anilist_get_image_banner(anime_manga)
         payload.embed_description = description_parser(payload.description)
         payload.studios = anilist_get_studios(anime_manga)
@@ -301,6 +302,16 @@ def anilist_get_next_airing_episode(media_result):
     else:
         return None
 
+def anilist_get_next_episode_time(media_result):
+    if media_result.get("nextAiringEpisode"):
+        return media_result["nextAiringEpisode"].get("airingAt", None)
+    return None
+
+def anilist_get_next_episode_int(media_result):
+    if media_result.get("nextAiringEpisode"):
+        return media_result["nextAiringEpisode"].get("episode", None)
+    return None
+
 def anilist_get_relations(media_result, cmd):
     relations = []
     relations_raw = anilist_get_relations_raw(media_result, cmd)
@@ -347,15 +358,20 @@ def anilist_get_studios(media_result):
     return None
 
 def anilist_get_tags(media_result, hideSpoilers=False, discordSpoilers=True):
-    if len(media_result.get("tags", [])) > 0:
+    genres = media_result.get("genres", [])
+    tags = media_result.get("tags", [])
+    return_tags = []
+    if len(genres) > 0:
+        return_tags = [f"**{str(g)}**" for g in genres]
+    if len(tags) > 0:
         am_tags_clean = [str(t.get("name", None)) for t in media_result.get("tags", []) if t.get("isMediaSpoiler", None) is not True]
         am_tags_spoilers = [str(t.get("name", None)) for t in media_result.get("tags", []) if t.get("isMediaSpoiler", None) is True]
         am_tags_spoilers_discord = ["||"+str(t.get("name", None))+"||" for t in media_result.get("tags", []) if t.get("isMediaSpoiler", None) is True]
 
         if hideSpoilers is False and discordSpoilers is True:
-            return am_tags_clean + am_tags_spoilers_discord
+            return_tags = return_tags + am_tags_clean + am_tags_spoilers_discord
         elif hideSpoilers is False and discordSpoilers is False:
-            return am_tags_clean + am_tags_spoilers
+            return_tags = return_tags + am_tags_clean + am_tags_spoilers
         elif hideSpoilers is True:
-            return am_tags_clean
-    return None
+            return_tags = return_tags + am_tags_clean
+    return return_tags
