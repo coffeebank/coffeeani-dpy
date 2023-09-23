@@ -1,4 +1,3 @@
 asyncio
 discord.py
 python-dotenv
-Red-DiscordBot
