@@ -37,12 +37,6 @@ The comprehensive manga/manhwa Discord bot for searching Anilist, MangaDex, and 
 
 - Search manga (+ manhwa/manhua/webtoons)
 
-### Kakao Webtoon
-
-- Search manhwa/webtoons
-- Korean romanizations
-- Korean translations (DeepL integration)
-
 
 ## About
 
@@ -65,7 +59,6 @@ This bot is also available on **Matrix** ([Element](https://element.io/personal)
 - `/anilist`
   - `user`, `manga`
 - `/batoto`
-- `/kakao`
 - `/mangadex`
 
 <br />
